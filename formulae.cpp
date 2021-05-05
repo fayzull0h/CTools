@@ -4,7 +4,7 @@
 using namespace std;
 
 // INCLUDES MEAN, MEDIAN, BUBBLESORT, INTERQUARTILE RANGE, POPULATION VARIANCE, POPULATION STANDARD DEVIATION, 
-// SAMPLE VARIANCE, SAMPLE STANDARD DEVIATION, AND QUADRATIC EQUATION
+// SAMPLE VARIANCE, SAMPLE STANDARD DEVIATION, QUADRATIC EQUATION, isPrime
 
 double meanCalc(vector<double> nums, int c) {
     double sum = 0;
@@ -149,4 +149,15 @@ void freqChart(double highestNum) {
     vector<string> frequencySets;
     frequencySets.push_back("\n" + to_string(freq_lower) + " - " + to_string(freq_upper));
     cout << frequencySets[0] << endl;
+}
+
+bool isPrime(int x) {
+    int t = x/2;
+    for (int i = 2; i <= t; i++)
+    {
+        if (x % i == 0) {
+            return false;
+        }
+    }
+    return true;
 }
