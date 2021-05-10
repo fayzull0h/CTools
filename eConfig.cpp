@@ -6,9 +6,9 @@ int atomicNumber(string a) {
     string atomicSymbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", 
     "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", 
     "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", 
-    "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe"};
+    "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La"};
 
-    for (int i = 0; i < 54; i++) {
+    for (int i = 0; i < 58; i++) {
         if (a == atomicSymbols[i]) {
             return ++i;
         }
@@ -16,93 +16,89 @@ int atomicNumber(string a) {
     return 0;
 }
 
-string LvlHandler(string& final, int _atomN) {
-    final += to_string(_atomN) + ")";
-    return final;
+void LvlHandler(string& final, int& _atomN, string m, int n, int e) {
+    final += to_string(n) + m + "(" + to_string(_atomN) + ")";
+    _atomN -= e;
+}
+
+void notLvlHandler(string& final, int& _atomN, string m, int n, int e) {
+    final += to_string(n) + m + "(" + to_string(e) + ") ";
+    _atomN -= e;
 }
 
 string aufbauMachine(int atomN) {
-    string result = "1s(";
+    string result = "";
+    int n = 0;
 
     if (atomN <= 2) {
-        return LvlHandler(result, atomN);
-    }
+        n = 1;
+    } else if (atomN <= 10) {
+        n = 2;
+    } else if (atomN <= 18) {
+        n = 3;
+    } else if (atomN <= 36) {
+        n = 4;
+    } else if (atomN <= 54) {
+        n = 5;
+    } else if (atomN <= 86) {
+        n = 6;
+    } else n = 7;
 
-    atomN -= 2;
-    result += "2) 2s(";
-    
-    if (atomN <= 2) {
-        return LvlHandler(result, atomN);
-    }
-
-    result += "2)";
-    atomN -= 2;
-
-    if (atomN <= 6) {
-        result += " 2p(";
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 6;
-    result += " 2p(6) 3s(";
-
-    if (atomN <= 2) {
-        return LvlHandler(result, atomN);
-    }
-
-    result += "2)";
-    atomN -= 2;
-
-    if (atomN <= 6) {
-        result += " 3p(";
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 6;
-    result += " 3p(6) 4s(";
-
-    if (atomN <= 2) {
-        return LvlHandler(result, atomN);
-    }
-
-    if (atomN == 6 || atomN == 11) {
-        result += "1) 3d(";
-        atomN -= 1;
-        return LvlHandler(result, atomN);
-    }
-    result += "2) 3d(";
-    atomN -= 2;
-
-    if (atomN <= 10) {
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 10;
-
-    if (atomN <= 6) {
-        result += "10) 4p(";
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 6;
-    result += "10) 4p(6) 5s(";
-
-    if (atomN <= 2) {
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 2;
-    result += "2) 4d(";
-
-    if (atomN <= 10) {
-        return LvlHandler(result, atomN);
-    }
-
-    atomN -= 10;
-    result += "10) 5p(";
-
-    if (atomN <= 6) {
-        return LvlHandler(result, atomN);
+    for (int i = 1; i <= n; i++) {
+        if (i == 1) {
+            if (atomN <= 2) {
+                notLvlHandler(result, atomN, "s", i, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "s", i, 2);
+            }
+        }
+        if (i == 2 || i == 3) {
+            if (atomN <= 2 ) {
+                notLvlHandler(result, atomN, "s", i, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "s", i, 2);
+            }
+            if (atomN <= 6) {
+                notLvlHandler(result, atomN, "p", i, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "p", i, 6);
+            }
+        }
+        if (i == 4 || i == 5) {
+            if (atomN <= 2 ) {
+                notLvlHandler(result, atomN, "s", i, atomN);
+                break;
+            } else if (atomN == 6 || atomN == 11) {
+                notLvlHandler(result, atomN, "s", i, 1);
+                LvlHandler(result, atomN, "d", i, 1);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "s", i, 2);
+            }
+            if (atomN <= 10) {
+                notLvlHandler(result, atomN, "d", i - 1, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "d", i - 1, 10);
+            }
+            if (atomN <= 6) {
+                notLvlHandler(result, atomN, "p", i, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "p", i, 6);
+            }
+        }
+        if (i == 6 || i == 7) {
+            if (atomN <= 2 ) {
+                notLvlHandler(result, atomN, "s", i, atomN);
+                break;
+            } else {
+                notLvlHandler(result, atomN, "s", i, 2);
+            }
+        }
     }
 
     return result;
@@ -117,8 +113,7 @@ int main(int argc, char *argv[]) {
         cout << "Please run the program again, you entered an invalid element." << endl;
         return 0;
     }
-
+    
     cout << "\nElectron Configuration:\n" << aufbauMachine(aNum) << endl << endl;
-
     return 0;
 }
