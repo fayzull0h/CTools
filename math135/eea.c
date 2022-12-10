@@ -33,11 +33,9 @@ int extendedEuclideanAlg(long _a, long _b, long xr1, long xr2, long yr1, long yr
   sprintf(q_str, "%ld", newQ);
   sprintf(r_str, "%ld", newR);
 
-  int newFL = (strlen(a_str) + strlen(b_str) + strlen(q_str) + strlen(r_str));
-  if ((newFL%8) < 7 && (newFL%8) > 0) {
-    eeaTabs = "\t";
-    if (newFL < (oldFL-4))
-      eeaTabs = "\t\t";
+  int newFL = (strlen(a_str) + strlen(b_str) + strlen(q_str) + strlen(r_str)) + 9;
+  if ((newFL%8) > ((newFL-4)%8)) {
+    eeaTabs = "\t\t";  
   }
 
   printf("-%ldrow%ld + row%ld\t|%ld\t|%ld\t|%ld\t\t|%ld = %ld(%ld) + %ld%s|  %ld\n",\
