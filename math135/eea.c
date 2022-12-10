@@ -19,8 +19,8 @@ int extendedEuclideanAlg(long _a, long _b, long xr1, long xr2, long yr1, long yr
     return 0;
   }
 
-  long newX = -1 * xr2 + xr1;
-  long newY = -1 * yr2 + yr1;
+  long newX = -1 * q * xr2 + xr1;
+  long newY = -1 * q * yr2 + yr1;
   long axby = _a * newX + _b * newY;
   long newA = b;
   long newB = r;
@@ -77,7 +77,6 @@ int main(int argc, char* argv[]) {
   char *firstTab = "\t";
   int formatLength = (strlen(argv[1]) + strlen(argv[2]) + strlen(q_str) + strlen(r_str));
   if ((formatLength%8) < 7) {
-    // printf("%i", formatLength);
     eeaTabs = "\t";
     if (formatLength >= 8)
       firstTab = "\t\t";
@@ -97,6 +96,5 @@ int main(int argc, char* argv[]) {
         a, b, a, q, r, eeaTabs, q);
     extendedEuclideanAlg(a, b, 0, 1, 1, 0, b, a, q, r, eeaTabs, 1, formatLength);
   }
-
   return 0;
 }
