@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <ncurses.h>
 #include <string.h>
+#include <ncurses.h>
 
 struct info {
   int name;
@@ -40,13 +40,29 @@ struct info draw(struct fnode root, int row, int col) {
   move(row, col);
   if (root.father != NULL) {
     struct info temp = draw(*root.father, getcury(stdscr), getcurx(stdscr) + 2 + c);
-    move(getcury(stdscr) + 2 * (temp.mothers + 1), getcurx(stdscr) - (temp.name + 2) - (c + 3));
+    int y = getcury(stdscr) + 1;
+    int x = getcurx(stdscr) - (temp.name + 3);
+    for (int i = temp.mothers; i > 0; i--) {
+      mvaddch(y, x, '|');
+      mvaddch(y + 1, x, '|');
+      y += 2;
+    }
+    mvaddch(y, x, '|');
+    move(y + 1, x - (c + 2));
     parents.fathers = temp.fathers + temp.mothers + 1;
   }
   
   if (root.mother != NULL) {
     struct info temp = draw(*root.mother, getcury(stdscr) + 2, getcurx(stdscr) + c + 2);
-    move(getcury(stdscr) - 2 * (temp.fathers + 1), getcurx(stdscr) - (temp.name + 2) - (c + 3));
+    int y = getcury(stdscr) - 1;
+    int x = getcurx(stdscr) - (temp.name + 3);
+    for (int i = temp.fathers; i > 0; i--) {
+      mvaddch(y, x, '|');
+      mvaddch(y - 1, x, '|');
+      y -= 2;
+    }
+    mvaddch(y, x, '|');
+    move(y - 1, x - (c + 2));
     parents.mothers = temp.mothers + temp.fathers + 1;
   }
   
@@ -73,7 +89,7 @@ int main() {
   // Me
   struct fnode Fayzulloh = {"Fayzulloh", &Farhod, &Dilrabo};
 
-  // Start NCURSES part
+ // Start NCURSES part
   initscr();
   noecho();
   
