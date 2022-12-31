@@ -33,48 +33,6 @@ struct fnode findSubtree(struct fnode target, char name[30]) {
   return failed;
 }
 
-struct info draw(struct fnode root, int row, int col);
-void drawFather(struct fnode root);
-void drawMother(struct fnode root);
-
-void drawMother(struct fnode root) {
-  int c = strlen(root.name);
-  int row, col;
-  getyx(stdscr, row, col);
-
-  row += 2;
-  col -= 1;
-
-  if (root.father != NULL) {
-    draw(*root.father, row, col + c + 2);
-    row += 2;
-  } 
-    
-  mvprintw(row, col, ">--%s", root.name);
-  
-  if (root.mother != NULL) {
-    draw(*root.mother, row + 2, col + c + 2);
-  }
-}
-
-void drawFather(struct fnode root) {
-  int c = strlen(root.name);
-  int row, col;
-  getyx(stdscr, row, col);
-  
-  if (root.father != NULL) {
-    draw(*root.father, row, col);
-  }
-
-  printw(">--%s", root.name);
-
-  getyx(stdscr, row, col);
-
-  if (root.mother != NULL) {
-    draw(*root.mother, row + 2, col - 1);
-  }
-}
-
 struct info draw(struct fnode root, int row, int col) {
   int c = strlen(root.name);
   struct info parents = {c, 0, 0};
@@ -96,11 +54,6 @@ struct info draw(struct fnode root, int row, int col) {
   return parents;
 }
 
-struct info testFunc(struct info thing) {
-  struct info result = {thing.fathers + 1, thing.mothers + 2};
-  return result;
-}
-
 int main() {
   // Father's Side
   struct fnode Mukarram = {"Mukarram", NULL, NULL};
@@ -120,38 +73,12 @@ int main() {
   // Me
   struct fnode Fayzulloh = {"Fayzulloh", &Farhod, &Dilrabo};
 
-  // Bita's Family
-  struct fnode Behjat = {"Behjat", NULL, NULL};
-  struct fnode Mahmoud = {"Mahmoud", NULL, NULL};
-
-  // Arash's Family
-  struct fnode Yahya = {"Yahya", NULL, NULL};
-  struct fnode Maryam = {"Maryam", NULL, NULL};
-  struct fnode Mohammed = {"Mohammed", NULL, NULL};
-  struct fnode Soghrah = {"Soghrah", NULL, NULL};
-  struct fnode Mehdi = {"Mehdi", &Mohammed, &Soghrah};
-  struct fnode Forough = {"Forough", &Yahya, &Maryam};
-
-  // Bahar's Familiy
-  struct fnode Arash = {"Arash", &Mehdi, &Forough};
-  struct fnode Bita = {"Bita", &Mahmoud, &Behjat};
-  struct fnode Bahar = {"Bahar", &Arash, &Bita};
-
-  // Our child
-  struct fnode Aisha = {"Aisha", &Fayzulloh, NULL};
-
-  struct info test = {1, 2, 3};
-  struct info t2 = testFunc(test);
-  test = t2;
-  test.mothers = test.mothers + 1;
-
   // Start NCURSES part
   initscr();
   noecho();
   
-  draw(Aisha, 0, 0);
-  //printw("%d, %d", t2.fathers, t2.mothers);
-  //printw("%d, %d", test.fathers, test.mothers);
+  draw(Fayzulloh, 0, 0);
+
   refresh();
   getch();
   
