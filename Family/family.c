@@ -72,9 +72,6 @@ struct info draw(struct fnode root, int row, int col) {
 
 int main() {
   // Father's Side
-  struct fnode Mukarram = {"Mukarram", NULL, NULL};
-  struct fnode Gulzoda = {"Gulzoda", NULL, &Mukarram};
-  struct fnode Rahmat = {"Rahmat", NULL, &Gulzoda};
   struct fnode Rahbarhon = {"Rahbarhon", NULL, NULL};
   struct fnode Adham = {"Adham", NULL, NULL};
   struct fnode Rozahon = {"Rozahon", NULL, &Rahbarhon};
