@@ -11,4 +11,4 @@ In the math135 directory, you can find the source code for my implementation of 
 There is also a binary file for macOS systems in the binaries directory. 
 
 Example:
-![alt text](math135/eea result.png)
+![alt text](https://raw.githubusercontent.com/fayzull0h/CTools/main/math135/eea%20result.png)
